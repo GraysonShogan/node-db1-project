@@ -21,7 +21,7 @@ exports.checkAccountNameUnique = async (req, res, next) => {
   try {
     const existingAccount = await Account.query().findOne({ name });
     if (existingAccount) {
-      return res.status(400).json({ message: "account name must be unique" });
+      return res.status(400).json({ message: "that name is taken" });
     }
     next();
   } catch (error) {
