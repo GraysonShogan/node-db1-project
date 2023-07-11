@@ -15,11 +15,19 @@ const create = (account) => {
 };
 
 const updateById = (id, account) => {
-  // DO YOUR MAGIC
+  return db("accounts")
+    .where("id", id)
+    .update(accountData)
+    .then(() => getById(id));
 };
 
 const deleteById = (id) => {
-  // DO YOUR MAGIC
+  return getById(id).then((deletedAccount) => {
+    return db("accounts")
+      .where("id", id)
+      .delete()
+      .then(() => deletedAccount);
+  });
 };
 
 module.exports = {
