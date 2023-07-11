@@ -15,10 +15,31 @@ exports.checkAccountPayload = (req, res, next) => {
   }
 };
 
-exports.checkAccountNameUnique = (req, res, next) => {
-  // DO YOUR MAGIC
+exports.checkAccountNameUnique = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const existingAccount = await Account.query().findOne({ name });
+    if (existingAccount) {
+      return res.status(400).json({ message: "account name must be unique" });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
 
-exports.checkAccountId = (req, res, next) => {
-  // DO YOUR MAGIC
+exports.checkAccountId = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const account = await Account.query().findById(id);
+    if (!account) {
+      return res.status(404).json({ message: "account not found" });
+    }
+    req.account = account;
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
