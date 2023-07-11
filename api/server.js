@@ -1,20 +1,17 @@
 const express = require("express");
-const accountsRouter = require("./accounts/accounts-router");
+const accountsRouter = require("./api/accounts/accounts-router");
 
-const app = express();
+const server = express();
 
-app.use(express.json());
+server.use(express.json());
 
-app.use("/api/accounts", accountsRouter);
+// Mount the accounts router
+server.use("/api/accounts", accountsRouter);
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+server.use((err, req, res, next) => {
   console.error(err); // Log the error for debugging purposes
   res.status(500).json({ message: "Something went wrong" });
 });
 
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+module.exports = server;
